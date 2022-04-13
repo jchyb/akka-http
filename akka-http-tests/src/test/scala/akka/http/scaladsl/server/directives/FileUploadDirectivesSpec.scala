@@ -21,7 +21,7 @@ import scala.concurrent.duration._
 class FileUploadDirectivesSpec extends RoutingSpec with Eventually {
 
   // tests touches filesystem, so reqs may take longer than the default of 1.second to complete
-  implicit val routeTimeout = RouteTestTimeout(6.seconds.dilated)
+  implicit val routeTimeout: RouteTestTimeout = RouteTestTimeout(6.seconds.dilated)
 
   "the storeUploadedFile directive" should {
     val data = s"<int>${"42" * 1000000}</int>" // ~2MB of data
@@ -235,7 +235,7 @@ class FileUploadDirectivesSpec extends RoutingSpec with Eventually {
 
       Post("/", multipartForm) ~> streamingEcho ~> check {
         status shouldEqual StatusCodes.OK
-        responseAs[String] shouldEqual (snip * 100)
+        responseAs[String] shouldEqual (snip * (100))
       }
     }
 

@@ -93,7 +93,8 @@ class RouteDirectivesSpec extends AnyWordSpec with GenericRoutingSpec {
                 case AlreadyRegistered =>
                   import spray.json.DefaultJsonProtocol._
                   import SprayJsonSupport._
-                  StatusCodes.BadRequest -> Map("error" -> "User already Registered")
+                  implicit val preciseFormat: spray.json.RootJsonFormat[Map[String, String]] = mapFormat // Scala 3 workaround
+                  ToResponseMarshallable(StatusCodes.BadRequest -> Map[String, String]("error" -> "User already Registered"))
               }
             }
           }
